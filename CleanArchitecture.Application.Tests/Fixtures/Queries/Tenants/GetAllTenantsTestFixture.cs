@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CleanArchitecture.Application.Queries.Tenants.GetAll;
 using CleanArchitecture.Application.SortProviders;
 using CleanArchitecture.Domain.Entities;
@@ -35,5 +36,12 @@ public sealed class GetAllTenantsTestFixture : QueryHandlerBaseFixture
         TenantRepository.GetAllNoTracking().Returns(tenantList);
 
         return tenant;
+    }
+
+    public IList<Tenant> SetupTenants(params Tenant[] tenants)
+    {
+        var tenantList = tenants.ToList().BuildMock();
+        TenantRepository.GetAllNoTracking().Returns(tenantList);
+        return tenants;
     }
 }

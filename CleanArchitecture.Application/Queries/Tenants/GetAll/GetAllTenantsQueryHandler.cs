@@ -44,7 +44,14 @@ public sealed class GetAllTenantsQueryHandler :
 
         var totalCount = await tenantsQuery.CountAsync(cancellationToken);
 
-        tenantsQuery = tenantsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
+        if (request.SortQuery is null || !request.SortQuery.Parameters.Any())
+        {
+            tenantsQuery = tenantsQuery.OrderBy(tenant => tenant.Id);
+        }
+        else
+        {
+            tenantsQuery = tenantsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
+        }
 
         var tenants = await tenantsQuery
             .Skip((request.Query.Page - 1) * request.Query.PageSize)

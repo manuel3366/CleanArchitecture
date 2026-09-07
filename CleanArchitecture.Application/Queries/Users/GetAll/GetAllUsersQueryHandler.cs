@@ -45,7 +45,14 @@ public sealed class GetAllUsersQueryHandler :
 
         var totalCount = await usersQuery.CountAsync(cancellationToken);
 
-        usersQuery = usersQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
+        if (request.SortQuery is null || !request.SortQuery.Parameters.Any())
+        {
+            usersQuery = usersQuery.OrderBy(user => user.Id);
+        }
+        else
+        {
+            usersQuery = usersQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
+        }
 
         var users = await usersQuery
             .Skip((request.Query.Page - 1) * request.Query.PageSize)

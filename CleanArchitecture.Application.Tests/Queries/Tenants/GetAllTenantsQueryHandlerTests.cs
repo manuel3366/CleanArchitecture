@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArchitecture.Application.Queries.Tenants.GetAll;
 using CleanArchitecture.Application.Tests.Fixtures.Queries.Tenants;
 using CleanArchitecture.Application.ViewModels;
+using CleanArchitecture.Domain.Entities;
 using Shouldly;
 using Xunit;
 
@@ -60,5 +62,26 @@ public sealed class GetAllTenantsQueryHandlerTests
         result.Count.ShouldBe(0);
 
         result.Items.Count.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task Should_Order_Tenants_By_Id_When_No_Sort_Is_Provided()
+    {
+        var tenantA = new Tenant(Guid.Parse("00000000-0000-0000-0000-000000000002"), "Tenant B");
+        var tenantB = new Tenant(Guid.Parse("00000000-0000-0000-0000-000000000001"), "Tenant A");
+        _fixture.SetupTenants(tenantA, tenantB);
+
+        var query = new PageQuery
+        {
+            PageSize = 10,
+            Page = 1
+        };
+
+        var result = await _fixture.QueryHandler.Handle(
+            new GetAllTenantsQuery(query, false),
+            default);
+
+        result.Count.ShouldBe(2);
+        result.Items.Select(item => item.Id).ShouldBe(new[] { tenantB.Id, tenantA.Id });
     }
 }

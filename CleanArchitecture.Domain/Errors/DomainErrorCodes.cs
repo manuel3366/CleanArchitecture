@@ -38,4 +38,22 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "TENANT_ALREADY_EXISTS";
     }
+
+    public static class Client
+    {
+        public const string EmptyId = "CLIENT_EMPTY_ID";
+        public const string EmptyNombres = "CLIENT_EMPTY_NOMBRES";
+        public const string EmptyApellidos = "CLIENT_EMPTY_APELLIDOS";
+        public const string EmptyDocumentoIdentidad = "CLIENT_EMPTY_DOCUMENTO_IDENTIDAD";
+        public const string EmptyEmail = "CLIENT_EMPTY_EMAIL";
+        public const string EmptyEstado = "CLIENT_EMPTY_ESTADO";
+        public const string InvalidEmail = "CLIENT_INVALID_EMAIL";
+        public const string NombresExceedsMaxLength = "CLIENT_NOMBRES_EXCEEDS_MAX_LENGTH";
+        public const string ApellidosExceedsMaxLength = "CLIENT_APELLIDOS_EXCEEDS_MAX_LENGTH";
+        public const string DocumentoIdentidadExceedsMaxLength = "CLIENT_DOCUMENTO_IDENTIDAD_EXCEEDS_MAX_LENGTH";
+        public const string EmailExceedsMaxLength = "CLIENT_EMAIL_EXCEEDS_MAX_LENGTH";
+        public const string TelefonoExceedsMaxLength = "CLIENT_TELEFONO_EXCEEDS_MAX_LENGTH";
+        public const string EstadoExceedsMaxLength = "CLIENT_ESTADO_EXCEEDS_MAX_LENGTH";
+        public const string AlreadyExists = "CLIENT_ALREADY_EXISTS";
+    }
 }

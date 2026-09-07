@@ -1,4 +1,5 @@
 using CleanArchitecture.Application.Interfaces;
+using CleanArchitecture.Application.Queries.Clients.GetAll;
 using CleanArchitecture.Application.Queries.Tenants.GetAll;
 using CleanArchitecture.Application.Queries.Tenants.GetTenantById;
 using CleanArchitecture.Application.Queries.Users.GetAll;
@@ -6,6 +7,7 @@ using CleanArchitecture.Application.Queries.Users.GetUserById;
 using CleanArchitecture.Application.Services;
 using CleanArchitecture.Application.SortProviders;
 using CleanArchitecture.Application.ViewModels;
+using CleanArchitecture.Application.ViewModels.Clients;
 using CleanArchitecture.Application.ViewModels.Sorting;
 using CleanArchitecture.Application.ViewModels.Tenants;
 using CleanArchitecture.Application.ViewModels.Users;
@@ -21,6 +23,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITenantService, TenantService>();
+        services.AddScoped<IClientService, ClientService>();
 
         return services;
     }
@@ -35,6 +38,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetTenantByIdQuery, TenantViewModel?>, GetTenantByIdQueryHandler>();
         services
             .AddScoped<IRequestHandler<GetAllTenantsQuery, PagedResult<TenantViewModel>>, GetAllTenantsQueryHandler>();
+
+        // Client
+        services.AddScoped<IRequestHandler<GetAllClientsQuery, PagedResult<ClientViewModel>>, GetAllClientsQueryHandler>();
 
         return services;
     }
