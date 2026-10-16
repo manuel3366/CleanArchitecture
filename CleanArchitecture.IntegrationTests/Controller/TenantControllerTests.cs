@@ -149,4 +149,37 @@ public sealed class TenantControllerTests
 
         tenantResponse.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
+
+    [Test, Order(7)]
+    public async Task Should_Create_Client()
+    {
+        var request = new CreateTenantViewModel("Test Client");
+
+        var response = await _fixture.ServerClient.PostAsJsonAsync("/api/v1/Cliente", request);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        var message = await response.Content.ReadAsJsonAsync<Guid>();
+        message?.Data.ShouldNotBe(Guid.Empty);
+    }
+
+    [Test, Order(8)]
+    public async Task Should_Delete_Client()
+    {
+        var createResponse = await _fixture.ServerClient.PostAsJsonAsync(
+            "/api/v1/Cliente",
+            new CreateTenantViewModel("Client to delete"));
+        createResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        var message = await createResponse.Content.ReadAsJsonAsync<Guid>();
+        message?.Data.ShouldNotBe(Guid.Empty);
+
+        var clientId = message!.Data;
+        var response = await _fixture.ServerClient.DeleteAsync($"/api/v1/Cliente/{clientId}");
+
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        var clientResponse = await _fixture.ServerClient.GetAsync($"/api/v1/Tenant/{clientId}");
+        clientResponse.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+    }
 }
