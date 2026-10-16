@@ -7,6 +7,7 @@ namespace CleanArchitecture.Infrastructure.Database;
 
 public partial class ApplicationDbContext : DbContext
 {
+    public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Tenant> Tenants { get; set; } = null!;
 
@@ -39,6 +40,7 @@ public partial class ApplicationDbContext : DbContext
 
     private static void ApplyConfigurations(ModelBuilder builder)
     {
+        builder.ApplyConfiguration(new ClientConfiguration());
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new TenantConfiguration());
     }
