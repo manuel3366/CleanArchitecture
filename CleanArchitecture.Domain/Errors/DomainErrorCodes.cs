@@ -38,4 +38,12 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "TENANT_ALREADY_EXISTS";
     }
+
+    public static class Client
+    {
+        public const string EmptyId = "CLIENT_EMPTY_ID";
+        public const string EmptyName = "CLIENT_EMPTY_NAME";
+        public const string EmptyEmail = "CLIENT_EMPTY_EMAIL";
+        public const string EmptyPhone = "CLIENT_EMPTY_PHONE";
+    }
 }
