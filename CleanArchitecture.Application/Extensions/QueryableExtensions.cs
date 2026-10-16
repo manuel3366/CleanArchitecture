@@ -41,7 +41,7 @@ public static class QueryableExtensions
         SortParameter param,
         Dictionary<string, Expression<Func<TEntity, object>>> fieldExpressions)
     {
-        if (!fieldExpressions.TryGetValue(param.ParameterName, out var fieldExpression))
+        if (!TryGetFieldExpression(fieldExpressions, param.ParameterName, out var fieldExpression))
         {
             throw new Exception($"{param.ParameterName} is not a sortable field");
         }
@@ -59,7 +59,7 @@ public static class QueryableExtensions
         SortParameter param,
         Dictionary<string, Expression<Func<TEntity, object>>> fieldExpressions)
     {
-        if (!fieldExpressions.TryGetValue(param.ParameterName, out var fieldExpression))
+        if (!TryGetFieldExpression(fieldExpressions, param.ParameterName, out var fieldExpression))
         {
             throw new Exception($"{param.ParameterName} is not a sortable field");
         }
@@ -70,5 +70,28 @@ public static class QueryableExtensions
             SortOrder.Descending => query.ThenByDescending(fieldExpression),
             _ => throw new InvalidOperationException($"{param.Order} is not a supported value")
         };
+    }
+
+    private static bool TryGetFieldExpression<TEntity>(
+        Dictionary<string, Expression<Func<TEntity, object>>> fieldExpressions,
+        string fieldName,
+        out Expression<Func<TEntity, object>> expression)
+    {
+        if (fieldExpressions.TryGetValue(fieldName, out expression!))
+        {
+            return true;
+        }
+
+        foreach (var field in fieldExpressions)
+        {
+            if (string.Equals(field.Key, fieldName, StringComparison.OrdinalIgnoreCase))
+            {
+                expression = field.Value;
+                return true;
+            }
+        }
+
+        expression = null!;
+        return false;
     }
 }

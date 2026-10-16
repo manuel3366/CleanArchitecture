@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using CleanArchitecture.Api.Models;
@@ -43,6 +44,30 @@ public class ApiController : ControllerBase
         return new ObjectResult(message)
         {
             StatusCode = (int)GetErrorStatusCode()
+        };
+    }
+
+    protected IActionResult ValidationError(string field, string message)
+    {
+        return new ObjectResult(new ResponseMessage<object>
+        {
+            Success = false,
+            Errors = new[] { message },
+            DetailedErrors = new[]
+            {
+                new DetailedError
+                {
+                    Code = ErrorCodes.ValidationError,
+                    Data = new Dictionary<string, string>
+                    {
+                        ["field"] = field,
+                        ["message"] = message
+                    }
+                }
+            }
+        })
+        {
+            StatusCode = (int)HttpStatusCode.BadRequest
         };
     }
 

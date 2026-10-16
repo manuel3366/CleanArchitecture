@@ -9,6 +9,7 @@ public partial class ApplicationDbContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Tenant> Tenants { get; set; } = null!;
+    public DbSet<Client> Clients { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
