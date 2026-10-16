@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using CleanArchitecture.Api.Models;
 using CleanArchitecture.Domain.Errors;
 using CleanArchitecture.Domain.Notifications;
@@ -44,6 +45,16 @@ public class ApiController : ControllerBase
         {
             StatusCode = (int)GetErrorStatusCode()
         };
+    }
+
+    protected async Task<IActionResult> ValidationErrorAsync(string key, string message)
+    {
+        await _notifications.Handle(new DomainNotification(
+            key,
+            message,
+            ErrorCodes.ValidationError));
+
+        return Response();
     }
 
     protected HttpStatusCode GetStatusCode()
