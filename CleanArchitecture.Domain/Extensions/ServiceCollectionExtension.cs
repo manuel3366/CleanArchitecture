@@ -1,6 +1,9 @@
 using CleanArchitecture.Domain.Commands.Tenants.CreateTenant;
 using CleanArchitecture.Domain.Commands.Tenants.DeleteTenant;
 using CleanArchitecture.Domain.Commands.Tenants.UpdateTenant;
+using CleanArchitecture.Domain.Commands.Clients.CreateClient;
+using CleanArchitecture.Domain.Commands.Clients.DeleteClient;
+using CleanArchitecture.Domain.Commands.Clients.UpdateClient;
 using CleanArchitecture.Domain.Commands.Users.ChangePassword;
 using CleanArchitecture.Domain.Commands.Users.CreateUser;
 using CleanArchitecture.Domain.Commands.Users.DeleteUser;
@@ -30,6 +33,11 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<CreateTenantCommand>, CreateTenantCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateTenantCommand>, UpdateTenantCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteTenantCommand>, DeleteTenantCommandHandler>();
+
+        // Client
+        services.AddScoped<IRequestHandler<CreateClientCommand>, CreateClientCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateClientCommand>, UpdateClientCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteClientCommand>, DeleteClientCommandHandler>();
 
         return services;
     }
