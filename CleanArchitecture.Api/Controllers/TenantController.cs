@@ -56,6 +56,7 @@ public sealed class TenantController : ApiController
     }
 
     [HttpPost]
+    [HttpPost("/api/v1/Cliente")]
     [SwaggerOperation("Create a new tenant")]
     [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
     public async Task<IActionResult> CreateTenantAsync([FromBody] CreateTenantViewModel tenant)
@@ -74,6 +75,7 @@ public sealed class TenantController : ApiController
     }
 
     [HttpDelete("{id}")]
+    [HttpDelete("/api/v1/Cliente/{id}")]
     [SwaggerOperation("Delete an existing tenant")]
     [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
     public async Task<IActionResult> DeleteTenantAsync([FromRoute] Guid id)
